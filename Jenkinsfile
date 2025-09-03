@@ -23,7 +23,7 @@ pipeline {
                 script {
                     echo "🐳 Building Docker image from Dockerfile..."
                     sh """
-                        docker build -t $DOCKERHUB_REPO:$APP_VERSION -f Dockerfile .
+                        sudo docker build -t $DOCKERHUB_REPO:$APP_VERSION -f Dockerfile .
                     """
                 }
             }
@@ -34,7 +34,7 @@ pipeline {
                 script {
                     echo "🔑 Logging into Docker Hub..."
                     sh """
-                        echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                        echo $DOCKERHUB_CREDENTIALS_PSW | sudo docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
                     """
                 }
             }
@@ -45,9 +45,9 @@ pipeline {
                 script {
                     echo "🚀 Pushing Docker image to DockerHub..."
                     sh """
-                        docker push $DOCKERHUB_REPO:$APP_VERSION
-                        docker tag $DOCKERHUB_REPO:$APP_VERSION $DOCKERHUB_REPO:latest
-                        docker push $DOCKERHUB_REPO:latest
+                        sudo docker push $DOCKERHUB_REPO:$APP_VERSION
+                        sudo docker tag $DOCKERHUB_REPO:$APP_VERSION $DOCKERHUB_REPO:latest
+                        sudo docker push $DOCKERHUB_REPO:latest
                     """
                 }
             }
