@@ -59,7 +59,7 @@ pipeline {
             echo "✅ Docker image successfully built and pushed to DockerHub!"
         }
         failure {
-            echo "❌ Build failed. Check the logs."
+            echo "❌ Build failed. Check the logs properly."
         }
     }
 }
