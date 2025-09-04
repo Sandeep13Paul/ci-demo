@@ -1,6 +1,10 @@
 pipeline {
     agent any
 
+    tools {
+        maven 'jenkins-maven'   // Name you configured in Jenkins Global Tool Configuration
+    }
+
     environment {
         // Credentials you created in Jenkins for DockerHub
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
@@ -18,11 +22,29 @@ pipeline {
             }
         }
 
+        stage('Build with Maven') {
+            steps {
+                echo "🔨 Running Maven build..."
+                sh '''
+                    cd demo3
+                    mvn clean install -DskipTests
+                '''
+            }
+        }
+
+        stage('Archive Artifacts') {
+            steps {
+                echo "📦 Archiving built JAR files..."
+                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
+            }
+        }
+
         stage('Build Docker Image') {
             steps {
                 script {
                     echo "🐳 Building Docker image from Dockerfile..."
                     sh """
+                        cd ..
                         docker build -t $DOCKERHUB_REPO:$APP_VERSION -f Dockerfile .
                     """
                 }
@@ -56,10 +78,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ Docker image successfully built and pushed to DockerHub!"
+            echo "✅ Build, Docker image, and push completed successfully!"
         }
         failure {
-            echo "❌ Build failed. Check the logs properly."
+            echo "❌ Pipeline failed. Check logs for errors."
         }
     }
 }
