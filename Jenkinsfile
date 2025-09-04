@@ -26,7 +26,6 @@ pipeline {
             steps {
                 echo "🔨 Running Maven build..."
                 sh '''
-                    cd demo3
                     mvn clean install -DskipTests
                 '''
             }
@@ -44,7 +43,6 @@ pipeline {
                 script {
                     echo "🐳 Building Docker image from Dockerfile..."
                     sh """
-                        cd ..
                         docker build -t $DOCKERHUB_REPO:$APP_VERSION -f Dockerfile .
                     """
                 }
