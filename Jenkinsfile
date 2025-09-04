@@ -22,10 +22,10 @@ pipeline {
         stage('Build with Maven') {
             steps {
                 echo "Running Maven build..."
-                sh '''
+                sh """
                     cd demo3
                     mvn clean install -DskipTests
-                '''
+                """
             }
         }
 
@@ -54,7 +54,7 @@ pipeline {
         stage('Push Docker Image to DockerHub') {
             steps {
                 script {
-                    echo "🚀 Pushing Docker image to DockerHub..."
+                    echo "Pushing Docker image to DockerHub..."
                     sh """
                         docker push $DOCKERHUB_REPO:$APP_VERSION
                         docker tag $DOCKERHUB_REPO:$APP_VERSION $DOCKERHUB_REPO:latest
@@ -67,10 +67,10 @@ pipeline {
 
     post {
         success {
-            echo "✅ Build, Docker image, and push completed successfully!"
+            echo "Build, Docker image, and push completed successfully!"
         }
         failure {
-            echo "❌ Pipeline failed. Check logs for errors."
+            echo "Pipeline failed. Check logs for errors."
         }
     }
 }
