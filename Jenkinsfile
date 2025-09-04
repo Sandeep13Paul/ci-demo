@@ -26,6 +26,7 @@ pipeline {
             steps {
                 echo "🔨 Running Maven build..."
                 sh '''
+                    cd demo3
                     mvn clean install -DskipTests
                 '''
             }
