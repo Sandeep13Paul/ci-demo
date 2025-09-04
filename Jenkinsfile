@@ -2,15 +2,12 @@ pipeline {
     agent any
 
     tools {
-        maven 'jenkins-maven'   // Name you configured in Jenkins Global Tool Configuration
+        maven 'jenkins-maven'
     }
 
     environment {
-        // Credentials you created in Jenkins for DockerHub
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
-        // Replace with your DockerHub username/repo
         DOCKERHUB_REPO = "sandeeppaul/my-repo"
-        // Tag version dynamically
         APP_VERSION = "v1.0.${BUILD_NUMBER}"
     }
 
