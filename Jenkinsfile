@@ -17,14 +17,14 @@ pipeline {
     stages {
         stage('Checkout from GitHub') {
             steps {
-                echo "📥 Cloning GitHub repository..."
+                echo "Cloning GitHub repository..."
                 checkout scm
             }
         }
 
         stage('Build with Maven') {
             steps {
-                echo "🔨 Running Maven build..."
+                echo "Running Maven build..."
                 sh '''
                     cd demo3
                     mvn clean install -DskipTests
@@ -32,17 +32,10 @@ pipeline {
             }
         }
 
-        stage('Archive Artifacts') {
-            steps {
-                echo "📦 Archiving built JAR files..."
-                archiveArtifacts artifacts: '**/target/*.jar', fingerprint: true
-            }
-        }
-
         stage('Build Docker Image') {
             steps {
                 script {
-                    echo "🐳 Building Docker image from Dockerfile..."
+                    echo "Building Docker image from Dockerfile..."
                     sh """
                         docker build -t $DOCKERHUB_REPO:$APP_VERSION -f Dockerfile .
                     """
@@ -53,9 +46,9 @@ pipeline {
         stage('Login to DockerHub') {
             steps {
                 script {
-                    echo "🔑 Logging into Docker Hub..."
+                    echo "Logging into Docker Hub..."
                     sh """
-                        echo $DOCKERHUB_CREDENTIALS_PSW | docker login -u $DOCKERHUB_CREDENTIALS_USR --password-stdin
+                        docker login -u $DOCKERHUB_CREDENTIALS_USR -p $DOCKERHUB_CREDENTIALS_PSW
                     """
                 }
             }
