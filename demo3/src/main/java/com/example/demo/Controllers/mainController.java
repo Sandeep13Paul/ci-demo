@@ -20,4 +20,9 @@ public class mainController {
      public String greet() {
         return "Greetings from /greet endpoint!";
      }
+
+     @GetMapping("/paid")
+     public String paid() {
+        return "Greetings from /paid endpoint!";
+     }
 }
