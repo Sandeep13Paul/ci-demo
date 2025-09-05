@@ -25,4 +25,9 @@ public class mainController {
      public String paid() {
         return "Greetings from /paid endpoint!";
      }
+
+     @GetMapping("/mop")
+     public String mop() {
+        return "Greetings from /mop endpoint!";
+     }
 }
