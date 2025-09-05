@@ -15,4 +15,9 @@ public class mainController {
      public String hello() {
         return "Hello from /hello endpoint!";
      }
+
+     @GetMapping("/greet")
+     public String greet() {
+        return "Greetings from /greet endpoint!";
+     }
 }
