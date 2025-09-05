@@ -8,7 +8,6 @@ pipeline {
     environment {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub-credentials')
         DOCKERHUB_REPO = "sandeeppaul/my-repo"
-        APP_VERSION = "v1.0.${BUILD_NUMBER}"
     }
 
     stages {
@@ -16,6 +15,16 @@ pipeline {
             steps {
                 echo "Cloning GitHub repository..."
                 checkout scm
+            }
+        }
+
+        stage('Set App Version') {
+            steps {
+                script {
+                    // use short git commit hash
+                    APP_VERSION = sh(script: "git rev-parse --short HEAD", returnStdout: true).trim()
+                    echo "App Version (Git SHA): ${APP_VERSION}"
+                }
             }
         }
 
@@ -60,6 +69,18 @@ pipeline {
                         docker tag $DOCKERHUB_REPO:$APP_VERSION $DOCKERHUB_REPO:latest
                         docker push $DOCKERHUB_REPO:latest
                     """
+                }
+            }
+        }
+
+        stage('Trigger CD Pipeline') {
+            steps {
+                script {
+                    echo "Triggering CD pipeline with image ${APP_VERSION}"
+                    build job: 'cd-pipeline', parameters: [
+                        string(name: 'APP_VERSION', value: "${APP_VERSION}"),
+                        string(name: 'GIT_COMMIT', value: "${APP_VERSION}")
+                    ]
                 }
             }
         }
