@@ -10,4 +10,9 @@ public class mainController {
          System.out.println("Hello Sandeep");
          return "Hello World Sandeep";
      }
+
+     @GetMapping("/hello")
+     public String hello() {
+        return "Hello from /hello endpoint!";
+     }
 }
