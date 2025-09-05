@@ -21,8 +21,8 @@ public class mainController {
         return "Greetings from /greet endpoint!";
      }
 
-     @GetMapping("/paid")
-     public String paid() {
-        return "Greetings from /paid endpoint!";
-     }
+    //  @GetMapping("/paid")
+    //  public String paid() {
+    //     return "Greetings from /paid endpoint!";
+    //  }
 }
