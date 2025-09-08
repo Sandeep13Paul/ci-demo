@@ -33,6 +33,11 @@ public class mainController {
 
      @GetMapping("/first")
      public String first() {
-        return "Greetings from /mop endpoint!";
+        return "Greetings from /first endpoint!";
+     }
+
+     @GetMapping("/second")
+     public String second() {
+        return "Greetings from /second endpoint!";
      }
 }
