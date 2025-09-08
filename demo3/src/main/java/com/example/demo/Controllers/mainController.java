@@ -30,4 +30,9 @@ public class mainController {
      public String mop() {
         return "Greetings from /mop endpoint!";
      }
+
+     @GetMapping("/first")
+     public String first() {
+        return "Greetings from /mop endpoint!";
+     }
 }
