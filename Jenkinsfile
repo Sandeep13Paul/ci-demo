@@ -5,5 +5,5 @@ ciPipeline(
     dockerCreds : 'dockerhub-credentials',
     dockerRepo  : 'sandeeppaul/my-repo',
     mavenDir    : 'demo3',
-    appVersion  : '1.1.2'   // or pass from Jenkins build parameter
+    appVersion  : '1.1.3'   // or pass from Jenkins build parameter 
 )
